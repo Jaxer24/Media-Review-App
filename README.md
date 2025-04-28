@@ -2,8 +2,6 @@ Group F)
 
 Project Topic: Book/Movie Review app
 
-Project Topic: Book/Movie Review app
-
 Roles:
 Front End - Rami, Mattew
 Full Stack - Jason
