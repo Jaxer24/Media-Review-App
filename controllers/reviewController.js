@@ -57,6 +57,7 @@ exports.postReview = async (req, res, next) => {
       type: 'success', 
       text: 'Review successful! Your opinion matter!' 
     };
+    
     res.redirect('/review/submit');
   } catch (error) {
     console.log("error, Bro");

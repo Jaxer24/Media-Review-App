@@ -75,34 +75,51 @@ app.locals.helpers = {
 
 // Session configuration
 let sessionConfig = {
-  secret: process.env.SESSION_SECRET,
-  resave: false,
-  saveUninitialized: false,
+  secret: process.env.SESSION_SECRET || 'fallback-secret-for-development',
+  resave: true, // Changed to true to ensure session is saved
+  saveUninitialized: true, // Changed to true to create session for all users
   cookie: {
     maxAge: 1000 * 60 * 60 * 24, // 1 day
     httpOnly: true,
-    secure: process.env.NODE_ENV === 'production',
-    sameSite: 'strict'
+    secure: false, // Disabled secure requirement temporarily
+    sameSite: 'lax' // Always use lax which works better in most environments
   }
 };
 
-// For now, let's avoid using MongoDB as a session store to prevent index creation issues
-console.log('Using memory session store (not persistent, but will work for development)');
 
 // If you want to try using MongoDB store, uncomment this:
-/*
 try {
   if (process.env.MONGODB_URI) {
+    // Create the session store with more reliable options
     sessionConfig.store = MongoStore.create({ 
       mongoUrl: process.env.MONGODB_URI,
       ttl: 14 * 24 * 60 * 60, // = 14 days session expiry
       autoRemove: 'native',
-      touchAfter: 24 * 3600, // time period in seconds between session updates
+      touchAfter: 60, // Update session every minute
       crypto: {
         secret: false // disable encryption
-      }
+      },
+      // Add error logging for any session store issues
+      collectionName: 'sessions', // Use explicit collection name
+      stringify: false, // Don't stringify session data (more reliable)
     });
-    console.log('MongoDB session store configured');
+    
+    // Add event listeners to the session store to debug connection issues
+    const store = sessionConfig.store;
+    
+    store.on('create', (sessionId) => {
+      console.log('New session created:', sessionId);
+    });
+    
+    store.on('touch', (sessionId) => {
+      console.log('Session touched:', sessionId);
+    });
+    
+    store.on('error', (error) => {
+      console.error('Session store error:', error);
+    });
+    
+    console.log('MongoDB session store configured with debug logging');
   } else {
     console.log('Using memory session store (not recommended for production)');
   }
@@ -110,38 +127,15 @@ try {
   console.error('Error configuring MongoDB session store:', error);
   console.log('Falling back to memory session store (not recommended for production)');
 }
-*/
 
 app.use(session(sessionConfig));
 
-// CSRF protection temporarily disabled
-/*
-try {
-  app.use(csrf({ cookie: false }));  // Using session instead of cookie
+// CSRF protection disabled temporarily
+console.log('CSRF protection is currently disabled');
 
-  // Set local variables for templates including CSRF token
-  app.use((req, res, next) => {
-    try {
-      res.locals.csrfToken = req.csrfToken();
-    } catch (err) {
-      console.error('Error generating CSRF token:', err);
-      // Provide a dummy token to prevent template errors
-      res.locals.csrfToken = 'dummy-csrf-token-error-occurred';
-    }
-    next();
-  });
-} catch (err) {
-  console.error('Error setting up CSRF protection:', err);
-  // Fallback middleware to prevent application crash
-  app.use((req, res, next) => {
-    res.locals.csrfToken = 'csrf-disabled-error-occurred';
-    next();
-  });
-}
-*/
-
-// Provide a dummy CSRF token for templates
+// Set a dummy CSRF token for templates
 app.use((req, res, next) => {
+  // Provide a dummy token so templates don't break
   res.locals.csrfToken = 'csrf-protection-disabled';
   next();
 });
