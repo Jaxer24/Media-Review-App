@@ -1,0 +1,64 @@
+<%- include('../partials/header') %>
+
+<style>
+    .movie-list {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 1.5rem;
+        padding: 2rem;
+        background-color: #f8f9fa;
+    }
+
+    .movie-card {
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        overflow: hidden;
+        transition: transform 0.2s ease-in-out;
+    }
+
+    .movie-card:hover {
+        transform: translateY(-5px);
+    }
+
+    .movie-image {
+        width: 100%;
+        height: 300px;
+        object-fit: cover;
+    }
+
+    .movie-details {
+        padding: 1rem;
+    }
+
+    .movie-title {
+        font-size: 1.25rem;
+        font-weight: bold;
+        margin-bottom: 0.5rem;
+    }
+
+    .movie-genre,
+    .movie-rating {
+        font-size: 0.95rem;
+        color: #555;
+    }
+
+    .movie-rating {
+        margin-top: 0.5rem;
+    }
+</style>
+
+<div class="movie-list">
+    <% movies.forEach(movie => { %>
+        <div class="movie-card">
+            <img class="movie-image" src="<%= movie.imageURL %>" alt="<%= movie.title %> poster">
+            <div class="movie-details">
+                <div class="movie-title"><%= movie.title %></div>
+                <div class="movie-genre">Genre: <%= movie.genre %></div>
+                <div class="movie-rating">Rating: <%= movie.rating %>/10</div>
+            </div>
+        </div>
+    <% }) %>
+</div>
+
+<%- include('../partials/footer') %>
