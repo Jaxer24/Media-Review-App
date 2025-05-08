@@ -24,7 +24,10 @@ tmp/
 
 # Env files 
 # Ignore all .env files everywhere
-**/.env
+/.env
+
+/.DS_Store
+
   
 
 CLAUDE.md

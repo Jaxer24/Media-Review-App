@@ -22,14 +22,12 @@ const ReviewSchema = new mongoose.Schema({
   //creates user attribute to connect the author to this review
   userID: { 
     type: mongoose.Schema.Types.ObjectId, 
-    ref: 'User' ,
-    required: [true, 'Message is required'],
+    ref: 'User' 
   },
   //creates movie attribute to connect the movie to this review
   movieID: { 
     type: mongoose.Schema.Types.ObjectId, 
-    ref: 'Movie' ,
-    required: [true, 'Message is required'],
+    ref: 'Movie' 
   },
   //creates rating attribute
   rating: {
