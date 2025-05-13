@@ -11,13 +11,22 @@ const ReviewSchema = new mongoose.Schema({
     required: [true, 'Tile is required'],
     // Removed index to avoid creation issues
     minlength: [1, 'Title must be at least 5 characters'],
-    maxlength: [30, 'Title cannot exceed 30 characters']
+    maxlength: [60, 'Title cannot exceed 30 characters']
   },
   //creates review message attribute
   message: {
     type: String,
     required: [true, 'Message is required'],
     // Removed index to avoid creation issues
+  },
+  //creates rating attribute
+  rating: {
+    type: Number, 
+    required: [true, 'Rating is required'],
+    max: 5
+  },
+  likes: {
+    type: Number
   },
   //creates user attribute to connect the author to this review
   userID: { 
@@ -28,12 +37,6 @@ const ReviewSchema = new mongoose.Schema({
   movieID: { 
     type: mongoose.Schema.Types.ObjectId, 
     ref: 'Movie' 
-  },
-  //creates rating attribute
-  rating: {
-    type: Number, 
-    required: [true, 'Rating is required'],
-    max: 5
   },
   //creates a date attribute
   createdAt: {

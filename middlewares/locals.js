@@ -15,3 +15,10 @@ exports.setLocals = (req, res, next) => {
   
   next();
 };
+
+exports.setBackPage = (req, res, next) => {
+  if (req.method === 'GET' && !req.xhr && !req.path.startsWith('/auth')) {
+    req.session.previousUrl = req.originalUrl;
+  }
+  next();
+};

@@ -15,5 +15,4 @@ Features:
 -Search & Explore, 
 -Bookmark/Favorites, 
 -Media image cover uploads, 
--Review Comments,
 -Review Likes

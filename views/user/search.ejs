@@ -4,12 +4,26 @@
 <div class="container">
 
     <!-- Search & Explore -->
-    <section class="search-explore">
-        <h2>Search & Explore</h2>
-        <input type="text" placeholder="Search for movies..." class="search-box" />
-        <button class="search-btn">Search</button>
-    </section>
 
+    <form action="/user/search" method="POST">
+      
+        <h2>Search User</h2>
+      <div class="form-group">
+        <label for="username"></label>
+        <input 
+          type="text" 
+          id="username" 
+          name="username" 
+          value="<%= typeof formData !== 'undefined' ? formData.username || '' : '' %>"
+          placeholder="Search for user..."    
+        >
+      </div>
+      
+        <div class="form-actions">
+            <button type="submit" class="btn primary-btn">Submit</button>
+        </div>
+    </form>
+    
 </div>
 
 <%- include('../partials/footer') %>

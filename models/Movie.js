@@ -11,7 +11,7 @@ const MovieSchema = new mongoose.Schema({
         required: [true, 'Tile is required'],
         // Removed index to avoid creation issues
         minlength: [1, 'Title must be at least 5 characters'],
-        maxlength: [30, 'Title cannot exceed 30 characters']
+        maxlength: [60, 'Title cannot exceed 30 characters']
     },
   //creates year attribute
     year: {
@@ -19,19 +19,25 @@ const MovieSchema = new mongoose.Schema({
         
     },
   //creates genre attribute
-    genre: {
-        type: String
-        
-    },
-  //creates an ArrayList of type Review attribute to hold all the reviews for this movie
+    genre: [{
+      type: String
+    }],
+  //creates an Array of type Review attribute to hold all the reviews for this movie
     reviews: [{ 
         type: mongoose.Schema.Types.ObjectId, 
         ref: 'Review' 
     }],
-  //creates director attribute
-    director: {
-        type: String
+    rating: [{
+      type: Number
+    }],
+    ratingAvg: {
+      type: Number
     },
+  //creates image boolean attribute
+  hasCoverImage: {
+    type: Boolean,
+    default: false
+  },
   //creates a date attribute
     createdAt: {
         type: Date,
@@ -44,4 +50,4 @@ const MovieSchema = new mongoose.Schema({
   toObject: { virtuals: true }
 });
 
-module.exports = mongoose.model('Movie', ReviewSchema);
+module.exports = mongoose.model('Movie', MovieSchema);

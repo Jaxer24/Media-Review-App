@@ -3,16 +3,35 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title><%= title %> | Authentication Template</title>
+  <title><%= title %> | 🎬 Movie Review Central</title>
   <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
   <header>
     <nav class="navbar">
-      <div class="logo">
-        <a href="/">Auth Template</a>
+        <div class="logo">
+          <a href="/">🎬 Movie Review Central</a>
+             
+   <form class="header-form" action="/review/list/search" method="POST">
+      
+      <div class="form-group">
+        <label for="title"></label>
+        <input 
+          type="text"    
+          id="title" 
+          name="title" 
+          value="<%= typeof formData !== 'undefined' ? formData.title || '' : '' %>"
+          placeholder="Movie Title"    
+        >
+      </div>
+      
+        <div id="header-search" class="form-actions">
+            <button type="submit" class="btn primary-btn">Submit</button>
+        </div>
+    </form>
       </div>
       <ul class="nav-links">
+        
         <li><a href="/" class="<%= path === '/' ? 'active' : '' %>">Home</a></li>
         <li><a href="/about" class="<%= path === '/about' ? 'active' : '' %>">About</a></li>
         
@@ -27,5 +46,18 @@
       </ul>
     </nav>
   </header>
-
+  
+  <style>
+  
+  div#header-search{
+    transform: translate(10%, -60%);
+  }  
+    
+  form.header-form{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 50px;
+}
+  </style>
   <main>

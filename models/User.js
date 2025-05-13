@@ -44,6 +44,10 @@ const UserSchema = new mongoose.Schema({
   favorites: [{ 
     type: mongoose.Schema.Types.ObjectId, 
     ref: 'Movie' 
+  }],
+  likes: [{
+    type: mongoose.Schema.Types.ObjectId, 
+    ref: 'Review' 
   }]
 }, {
   // Add virtual properties when converting to JSON

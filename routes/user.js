@@ -12,8 +12,21 @@ const userController = require('../controllers/userController');
 // All routes in this file require authentication
 router.use(isAuthenticated);
 
+
+// GET /user/profile - User profile page
+router.get('/favorites/:movieTitle', userController.getFavorite);
+
 // GET /user/profile - User profile page
 router.get('/profile', userController.getProfile);
+
+// GET /user/profile - User profile page
+router.get('/search', userController.getSearch);
+
+// GET /user/profile - User profile page
+router.post('/search', userController.postSearch);
+
+// GET /user/profile - User profile page
+router.get('/profile/:username', userController.getUserProfile);
 
 // GET /user/settings - User settings page
 router.get('/settings', userController.getSettings);

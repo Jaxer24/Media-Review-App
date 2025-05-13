@@ -1,3 +1,4 @@
+<%- include('../partials/header') %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,37 +12,37 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/css/style1.css">
+    <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
 
-    <!-- Header with centered site title and search -->
-    <header>
-        <h1>🎬 Movie Review Central</h1>
-        <nav>
-            <input type="text" id="searchBar" placeholder="Search movies...">
-            <button onclick="searchReviews()">Search</button>
-        </nav>
-    </header>
+
 
     <!-- Main content -->
-    <main>
+    <main id="Rmain">
         <!-- Review submission form -->
-        <section>
+        <section id="Rsection">
             <h2>Submit a Review</h2>
-            <form id="reviewForm">
-                <label for="movieTitle">Movie Title:</label>
-                <input type="text" id="movieTitle" name="movieTitle" required>
+            <form id="Rform" action="/review/submit" method="POST"  enctype="multipart/form-data">
+                <label for="title">Movie Title:</label>
+                <input class="Rinput" type="text" id="title" name="title" placeholder="Movie Title" required
+                       value="<%= typeof formData !== 'undefined' ? formData.title || '' : '' %>">
 
+                <label for="year">Movie Year:</label>
+                <input  class="Rinput" type="number" id="year" name="year" placeholder="Choose Year" 
+                        min="1878" max="2025"
+                        value="<%= typeof formData !== 'undefined' ? formData.year || '' : '' %>">
+
+                
                 <label for="genre">Genre:</label>
-                <select id="genre" name="genre" required>
+                <select id="genre" name="genre" >
                     <option value="">Select genre</option>
-                    <option>Action</option>
-                    <option>Drama</option>
-                    <option>Comedy</option>
-                    <option>Horror</option>
-                    <option>Romance</option>
-                    <option>Sci-Fi</option>
+                    <option value="Action">Action</option>
+                    <option value="Drama">Drama</option>
+                    <option value="Comedy">Comedy</option>
+                    <option value="Horror">Horror</option>
+                    <option value="Romance">Romance</option>
+                    <option value="Sci-Fi">Sci-Fi</option>
                 </select>
 
                 <label for="rating">Star Rating:</label>
@@ -54,23 +55,31 @@
                     <option value="5">★★★★★</option>
                 </select>
 
-                <label for="reviewText">Review:</label>
-                <textarea id="reviewText" name="reviewText" rows="5" required></textarea>
-
-                <label for="imageUpload">Upload Cover Image:</label>
-                <input type="file" id="imageUpload" accept="image/*">
+                 <label for="message">Review</label>
+                <textarea 
+                  type="text" 
+                  id="message" 
+                  name="message" 
+                  rows="5"   
+                  placeholder="Movie Title" 
+                  required
+                  value="<%= typeof formData !== 'undefined' ? formData.message || '' : '' %>"
+                ></textarea>
+                <label for="movieImage">Upload Cover Image:</label>
+                <input 
+                  class="Rinput" 
+                  type="file" 
+                  id="movieImage" 
+                  name="movieImage"
+                  accept="image/png, image/jpeg, image/gif"
+                >
+                <div class="form-hint">Max size: 2MB. Formats: JPG, PNG, GIF</div>
+                      
 
                 <button type="submit">Post Review</button>
             </form>
         </section>
 
-        <!-- Reviews listing area -->
-        <section>
-            <h2>Recent Reviews</h2>
-            <div id="reviewList">
-                <!-- Review cards will be added here -->
-            </div>
-        </section>
     </main>
 
     <!-- Footer -->

@@ -3,21 +3,45 @@
  * Handles logic for user-related pages and actions
  */
 const User = require('../models/User');
+const Movie = require('../models/Movie');
 const Image = require('../models/Image');
 const upload = require('../middlewares/upload');
 
 /**
  * Display user profile page
  */
-exports.getProfile = (req, res) => {
+exports.getProfile = async(req, res) => {
   // Add hasProfileImage flag to user object
-  const user = {...req.session.user};
+  const userID = req.session.user.id;
+  const user = await User.findById(userID);
   user.hasProfileImage = user.hasProfileImage || false;
+
+  res.render('user/profile', {
+    title: 'Profile',
+    user: user
+  });
+};
+
+/**
+ * Display any user's profile page
+ */
+exports.getUserProfile = async (req, res) => {
+  
+  try {
+    // Get user ID from params
+    const username = req.params.username;
+    
+    // Find image in database
+    const user = await User.findOne({ username: username });
+  
   
   res.render('user/profile', {
     title: 'Profile',
     user: user
   });
+    } catch (error) {
+    next(error);
+  }
 };
 
 /**
@@ -183,3 +207,87 @@ exports.getUserProfileImage = async (req, res, next) => {
     next(error);
   }
 };
+
+exports.getSearch = (req, res, next) => {
+  res.render('user/search', {
+    title: 'Search',
+  });
+};
+
+exports.postSearch = async (req, res) => {
+  try {
+    console.log('Search attempted for User:', req.body.username);
+    
+
+    // Find user by email
+    const user = await User.findOne({ username: req.body.username });
+    console.log('User found in database:', !!user);
+    
+    // Check if user exists
+    if (!user) {
+      console.log('User not found in database');
+      return res.status(401).render('user/search', {
+        title: 'Search',
+        formData: {
+          username: req.body.username
+        }
+      });
+    }
+    
+      
+    res.render('user/profile', {
+        title: 'Profile',
+        user: user
+    });
+  } catch (error) {
+    console.error('Review error:', error);
+  }
+};
+
+exports.postFavorite = async (req, res) => {
+  try{
+    // Get user ID from params
+    const title = req.params.movieTitle;
+    // Find image in database
+    const movie = await Movie.findOne({ title: title });
+    const user = req.session.user;
+    user.favorites.push(movie);
+    res.redirect('back');
+  }catch(error){
+    console.error('Review error:', error);
+  }
+  
+};
+
+exports.getFavorite = async (req, res) => {
+  try{
+    // Get user ID from params
+    const title = req.params.movieTitle;
+    // Find image in database
+    const movie = await Movie.findOne({ title: title });
+    
+    const user = await User.findById(req.session.user.id);
+    if (!user.favorites) {
+      user.favorites = []; // initialize if needed
+    }
+    
+    if(!user.favorites.includes(movie._id)){
+      console.log("adding "+movie.title+" to "+user.username);
+      user.favorites.push(movie);
+      await user.save();
+    }else{
+      
+      console.log("removing "+movie.title+" from "+user.username);
+      user.favorites.pull(movie);
+      await user.save();
+    }
+   
+    const url = req.get("Referrer");
+    res.redirect(req.get("Referrer")|| "/");
+  }catch(error){
+    console.error('Review error:', error);
+  }
+  
+};
+
+exports.deleteFavorite = (req, res) => {};

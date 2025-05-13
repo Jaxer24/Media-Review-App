@@ -8,6 +8,12 @@
 }
 
 :root {
+    --accent-color: #f39c12;
+    --bg-color: #f7f9fc;
+    --card-bg: #ffffff;
+    --muted-color: #7f8c8d;
+    --radius: 10px;
+    --font-family: 'Poppins', sans-serif;
   --primary-color: #3498db;
   --primary-dark: #2980b9;
   --secondary-color: #2ecc71;
@@ -22,15 +28,91 @@
   --white: #fff;
   --shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
+  
+/* Main Content */
+  #Rmain {
+    padding: 2rem 5%;
+  }
 
+  /* Form Styles */
+  #Rform {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    background: var(--card-bg);
+    padding: 2rem;
+    border-radius: var(--radius);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .Rinput,
+  select,
+  textarea {
+    padding: 0.6rem;
+    border: 1px solid #ccc;
+    border-radius: var(--radius);
+    font-family: var(--font-family);
+    transition: border 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  /* Focus and hover effects for form inputs */
+  .Rinput:hover,
+  select:hover,
+  textarea:hover,
+  input:focus,
+  select:focus,
+  textarea:focus {
+    border: 1px solid #e74c3c; /* Red border on hover/focus */
+    outline: none;
+    box-shadow: 0 0 5px rgba(231, 76, 60, 0.5); /* Red shadow */
+  }
+  
+  button[type="submit"] {
+    background-color: var(--accent-color);
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    padding: 0.75rem;
+    border-radius: var(--radius);
+    border: none;
+    transition: background-color 0.3s ease;
+  }
+  
+  button[type="submit"]#regular {
+  display: inline-block;
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 4px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+  transition: background-color 0.3s, transform 0.2s;
+  }
+
+
+button[type="submit"]#regular:hover {
+  text-decoration: none;
+  transform: translateY(-2px);
+}
+
+
+
+  /* Button hover effect */
+  button[type="submit"]:hover {
+    background-color: #d35400; /* Darker on hover */
+  }
+  
 body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  line-height: 1.6;
-  color: var(--text-color);
-  background-color: var(--background-color);
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  margin: 0;
+  font-family: var(--font-family);
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  line-height: 1.6;
 }
 
 a {
@@ -417,6 +499,24 @@ input:focus {
   text-transform: uppercase;
 }
 
+.movie-avatar span {
+  font-size: 2rem;
+  color: var(--white);
+  text-transform: uppercase;
+}
+
+
+.movie-avatar {
+  width: 100%;
+  height: 100%;
+  background-color: var(--primary-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 1.5rem;
+  overflow: hidden;
+}
+
 .profile-avatar img {
   width: 100%;
   height: 100%;
@@ -520,6 +620,7 @@ details pre {
   white-space: pre-wrap;
   font-size: 0.9rem;
 }
+
 
 /* 
  * Responsive Design 
